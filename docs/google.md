@@ -40,14 +40,14 @@ requires. Each address must be one of the client's authorized redirect URIs at G
 
 ## By configuration
 
-`GoogleFactory` makes Google for omniauth/oauth's `Providers::configured()`: an entry named
+`GoogleFactory` makes Google for omniauth's `Providers::configured()`: an entry named
 `google`, or of `type: google` (`client_id`, `client_secret`, `redirect_uri`, `scopes`,
 `hosted_domain`). An entry without a `client_id` is not served. Its constructor takes a clock and
 league's collaborators (an `httpClient`: tests, proxies).
 
 ## Any league provider
 
-`LeagueProvider` - GoogleProvider's ground - serves any league/oauth2-client provider by hand
+omniauth's `Omniauth\OAuth\Provider\LeagueProvider` - GoogleProvider's ground - serves any league/oauth2-client provider by hand
 (omniauth's state and PKCE in the address, the code exchanged with the verifier, the person read
 from the resource owner's details, their keys named by `fields`), until that provider has its own
 package. Leave the league provider's own `pkceMethod` unset: omniauth draws the verifier and keeps
@@ -55,6 +55,9 @@ it in the attempt (a league provider that draws its own is refused).
 
 ## Formerly
 
-These classes were `Omniauth\OAuth\Provider\GoogleProvider` and `LeagueProvider` in omniauth/oauth;
-the former names stay aliases for one release, and omniauth/oauth's `Providers::fromConfig()`
-(deprecated) makes Google through this package's factory.
+`GoogleProvider` was `Omniauth\OAuth\Provider\GoogleProvider` in omniauth/oauth: the former name
+stays an alias for one release (in omniauth now), and `Providers::fromConfig()` (deprecated) makes
+Google through this package's factory. `LeagueProvider` was here for a day
+(`Omniauth\Google\LeagueProvider`) and is omniauth's since 2026-10-23, the ground of every provider
+package built on league: the name here is an alias of it for one release. omniauth/oauth itself is
+abandoned - its mechanics are omniauth's `Omniauth\OAuth\`, same namespace and names.

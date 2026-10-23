@@ -11,14 +11,14 @@ use PHPUnit\Framework\TestCase;
  * omniauth/google with no framework: in PHP processes of their own (this one
  * has loaded PHPUnit), whole sign-ins by hand on Google's recorded answers,
  * and every class of the package loaded. Nothing may come from outside but
- * omniauth and omniauth/oauth, league/oauth2-client and league/oauth2-google,
+ * omniauth (its Omniauth\OAuth\ included), league/oauth2-client and league/oauth2-google,
  * Guzzle (league's HTTP client: guzzle, psr7, promises, getallheaders), the
  * PSR interfaces and symfony/password-hasher - no class of a framework, of
  * hwi/oauth-bundle, of the other omniauth packages or of an application.
  */
 final class BareTest extends TestCase
 {
-    private const FOREIGN = '~^(?:Symfony\\\\(?!Component\\\\PasswordHasher\\\\|Polyfill\\\\)|Omniauth\\\\(?:Passkey|Totp)\\\\|(?:Illuminate|Laravel|Doctrine|Twig|Scheb|Lcobucci|Webauthn|OTPHP|HWI|Omnibridge|Base|App)\\\\)~';
+    private const FOREIGN = '~^(?:Symfony\\\\(?!Component\\\\PasswordHasher\\\\|Polyfill\\\\)|Omniauth\\\\(?:WebAuthn|Otp|Passkey|Totp)\\\\|(?:Illuminate|Laravel|Doctrine|Twig|Scheb|Lcobucci|Webauthn|OTPHP|HWI|Omnibridge|Base|App)\\\\)~';
     private const ALLOWED_FILES = '~/vendor/(?:psr/[\w-]+|symfony/(?:password-hasher|polyfill-[\w-]+|deprecation-contracts)|league/(?:oauth2-client|oauth2-google)|guzzlehttp/(?:guzzle|psr7|promises)|ralouphie/getallheaders|composer)/|/vendor/autoload\.php$~';
 
     public function testSignInsByHandLoadNothingElse(): void
@@ -42,7 +42,7 @@ final class BareTest extends TestCase
     {
         $report = self::php([__DIR__.'/Fixtures/load-all.php', self::autoload(), \dirname(__DIR__), 'Omniauth\Google']);
 
-        self::assertSame(['Omniauth\Google\GoogleFactory', 'Omniauth\Google\GoogleProvider', 'Omniauth\Google\LeagueProvider'], self::sorted($report['loaded']));
+        self::assertSame(['Omniauth\Google\GoogleFactory', 'Omniauth\Google\GoogleProvider'], self::sorted($report['loaded']), 'LeagueProvider is the core\'s now (its former name here, an alias, is left out)');
         self::assertSame([], self::foreign($report['symbols']));
         self::assertSame([], self::outside($report['files'], $report['eager']));
     }
@@ -50,9 +50,9 @@ final class BareTest extends TestCase
     /** The check is not blind: a class of another omniauth package, once loaded, is seen. */
     public function testTheReportSeesWhatIsLoaded(): void
     {
-        $other = 'Omniauth\Totp\TotpMethod';
+        $other = 'Omniauth\Otp\TotpMethod';
         if (!class_exists($other)) {
-            self::markTestSkipped('omniauth/totp is not installed beside.');
+            self::markTestSkipped('omniauth/otp is not installed beside.');
         }
         $report = self::php([__DIR__.'/Fixtures/load-all.php', self::autoload(), \dirname(__DIR__), 'Omniauth\Google', $other]);
 

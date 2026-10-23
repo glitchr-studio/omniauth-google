@@ -1,7 +1,7 @@
 {
     "name": "omniauth/google",
     "type": "library",
-    "description": "Omniauth's Google sign-in, under any PHP host, over league/oauth2-google: Google as an OpenID Connect provider for omniauth/oauth - scopes \"openid email profile\", the nonce in the authorization address, the ID token's issuer, audience, authorized party, lifetime, nonce and Workspace domain (\"hd\") checked, \"email_verified\" read as Google sends it, the userinfo when there is no ID token -, its factory for a host's configuration, and LeagueProvider, which any league/oauth2-client provider serves through.",
+    "description": "Omniauth's Google sign-in, under any PHP host, over league/oauth2-google: Google as an OpenID Connect provider for omniauth's identity providers (Omniauth\\OAuth\\) - scopes \"openid email profile\", the nonce in the authorization address, the ID token's issuer, audience, authorized party, lifetime, nonce and Workspace domain (\"hd\") checked, \"email_verified\" read as Google sends it, the userinfo when there is no ID token -, its factory for a host's configuration.",
     "keywords": ["authentication", "sign-in", "google", "oauth", "oauth2", "openid-connect", "framework-agnostic", "omniauth"],
     "homepage": "https://github.com/glitchr-studio/omniauth-google",
     "license": "MIT",
@@ -15,7 +15,6 @@
         "php": ">=8.2",
         "league/oauth2-client": "^2.7",
         "league/oauth2-google": "^4.0",
-        "omniauth/oauth": "^1.0@dev",
         "omniscient/omniauth": "^1.0@dev",
         "psr/clock": "^1.0"
     },

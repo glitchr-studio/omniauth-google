@@ -12,7 +12,7 @@ use Omniauth\OAuth\Provider\Providers;
 use Omniauth\OAuth\Testing\FakeProvider;
 use PHPUnit\Framework\TestCase;
 
-/** Google from a host's configuration: omniauth/oauth's Providers::configured() with this package's factory. */
+/** Google from a host's configuration: omniauth's Providers::configured() with this package's factory. */
 final class GoogleFactoryTest extends TestCase
 {
     public function testGoogleByConfiguration(): void
@@ -50,12 +50,14 @@ final class GoogleFactoryTest extends TestCase
         self::assertSame(['staging', 'google'], $providers->names());
     }
 
-    /** omniauth/oauth's former entry point, kept one release: it makes Google through this package. */
+    /** omniauth/oauth's former entry point and names, kept one release: it makes Google through this package. */
     public function testTheDeprecatedFromConfigStillMakesGoogle(): void
     {
         $providers = @Providers::fromConfig(['google' => ['client_id' => 'g', 'client_secret' => 's', 'redirect_uri' => 'https://example.org/login/google/callback']]);
 
         self::assertInstanceOf(GoogleProvider::class, $providers->get('google'));
         self::assertInstanceOf(GoogleProvider::class, new \Omniauth\OAuth\Provider\GoogleProvider('g', 's', '/cb'), 'the former class name, an alias');
+        self::assertTrue(@class_exists('Omniauth\Google\LeagueProvider'));
+        self::assertTrue(is_a('Omniauth\Google\LeagueProvider', \Omniauth\OAuth\Provider\LeagueProvider::class, true) && is_a(\Omniauth\OAuth\Provider\LeagueProvider::class, 'Omniauth\Google\LeagueProvider', true), 'LeagueProvider\'s former name here, an alias of the core\'s');
     }
 }

@@ -7,6 +7,7 @@ use League\OAuth2\Client\Token\AccessTokenInterface;
 use Omniauth\OAuth\Authorization;
 use Omniauth\OAuth\Exception\ProviderError;
 use Omniauth\OAuth\Identity;
+use Omniauth\OAuth\Provider\LeagueProvider;
 use Omniauth\SystemClock;
 use Psr\Clock\ClockInterface;
 

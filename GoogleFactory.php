@@ -7,7 +7,7 @@ use Omniauth\OAuth\Provider\ProviderFactory;
 use Psr\Clock\ClockInterface;
 
 /**
- * Google from a host's configuration, for omniauth/oauth's
+ * Google from a host's configuration, for omniauth's
  * Providers::configured(): an entry named "google", or of "type: google".
  *
  *     google: { client_id: …, client_secret: …, redirect_uri: /login/google/callback,

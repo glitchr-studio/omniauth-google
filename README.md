@@ -1,9 +1,9 @@
 # omniauth/google
 
 Google sign-in for [omniscient/omniauth](https://github.com/glitchr-studio/omniauth), **under any
-PHP host**, over league/oauth2-google: Google as an OpenID Connect provider of
-[omniauth/oauth](https://github.com/glitchr-studio/omniauth-oauth), which carries what every
-provider shares (the state, PKCE and the nonce kept in the attempt, the linking by `sub`, the
+PHP host**, over league/oauth2-google: Google as an OpenID Connect provider of omniauth's
+identity providers (`Omniauth\OAuth\`, in the core since 2026-10-23 - formerly omniauth/oauth),
+which carry what every provider shares (the state, PKCE and the nonce kept in the attempt, the linking by `sub`, the
 sign-up of an unknown identity, the second factor after it).
 
 ```php
@@ -19,7 +19,7 @@ $methods->add(new OAuthMethod($accounts, $identities, $providers, new NoSecondFa
 ```
 
 One package per provider (Marco's decision, 2026-10-21), as omnishield has one per captcha: this
-one requires league/oauth2-client and league/oauth2-google (and Guzzle through them); omniauth/oauth
+one requires league/oauth2-client and league/oauth2-google (and Guzzle through them); omniauth
 requires no OAuth library.
 
 ## The shape
@@ -28,7 +28,7 @@ requires no OAuth library.
 |---|---|
 | `GoogleProvider` | Google over league/oauth2-google: scopes `openid email profile`, the nonce, the ID token's issuer, audience, authorized party, lifetime, nonce and hosted domain checked; `email_verified` as Google sends it; the userinfo when there is no ID token |
 | `GoogleFactory` | Google from a host's configuration, for `Providers::configured()` |
-| `LeagueProvider` | any league/oauth2-client provider as omniauth's `Provider`: omniauth's state and PKCE, the profile's fields named |
+| `LeagueProvider` | an alias, for one release, of omniauth's `Omniauth\OAuth\Provider\LeagueProvider` (any league/oauth2-client provider as omniauth's `Provider`), which `GoogleProvider` extends |
 
 The return address may be a path: each trip returns to the host it began at (a site on two hosts,
 or a long-running worker serving several), and the exchange repeats that address.
@@ -47,9 +47,9 @@ or a long-running worker serving several), and the exchange repeats that address
   challenge that went out, the client, the return address); the ID token's checks; `email_verified`
   as a boolean and as a string; the userinfo through the bearer token, its subject compared; a code
   Google refuses; a sign-in through the conductor; **a return path on the host of each trip, the
-  same at the exchange**; the factory; a generic league provider; the former names; in plain PHP
-  (`BareTest`), nothing loaded but omniauth, omniauth/oauth, league, Guzzle, the PSR interfaces and
-  the password hasher.
+  same at the exchange**; the factory; the former names; in plain PHP (`BareTest`), nothing loaded
+  but omniauth, league, Guzzle, the PSR interfaces and the password hasher (a generic league
+  provider through `LeagueProvider` is the core's own test now).
 - Not verified: **a real Google** - no client id and secret were at hand: the recorded answers are
   written from Google's documentation, not captured, and the ID token's signature is not checked
   (a token from the token endpoint over TLS, OpenID Connect Core §3.1.3.7 (6)).

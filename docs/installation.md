@@ -6,11 +6,12 @@ order: 1
 # Installation, in plain PHP
 
 ```sh
-composer require omniscient/omniauth omniauth/oauth omniauth/google
+composer require omniscient/omniauth omniauth/google
 ```
 
-It requires omniauth/oauth (the trip and the linking rule every provider shares),
-league/oauth2-client and league/oauth2-google (framework-free; league talks HTTP through Guzzle).
+It requires omniscient/omniauth (whose `Omniauth\OAuth\` carries the trip and the linking rule
+every provider shares - formerly the package omniauth/oauth), league/oauth2-client and
+league/oauth2-google (framework-free; league talks HTTP through Guzzle).
 No bundle, no framework.
 
 Google by configuration, its return address a path each trip's host completes:
@@ -57,7 +58,7 @@ echo parse_url($challenge->payload, PHP_URL_HOST), ' ', $query['scope'], ' -> ',
 ```
 
 The return route hands its query to `verify()`; what follows (`Authenticated`,
-`SecondFactorRequired`, `IdentityUnknown`, a failure) is omniauth/oauth's, described in its
-[installation page](https://github.com/glitchr-studio/omniauth-oauth/blob/1.x/docs/installation.md).
+`SecondFactorRequired`, `IdentityUnknown`, a failure) is omniauth's, described in its
+[identity providers page](https://github.com/glitchr-studio/omniauth/blob/1.x/docs/oauth.md).
 
 Next: [Google](google.md).
